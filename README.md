@@ -3,14 +3,23 @@
 Create a .env file contaning dev configurations (empty database ready to use) :
 
 ```
+#
+# required
+#
 PROJECT_NAME="fastapi_demo"
-ADMIN_EMAIL="admin@nowhere.org"
-ADMIN_PASSWORD="admin"
 SQLALCHEMY_DATABASE_URI="postgresql://postgres:postgres@localhost:5432/fastapi_demo"
 # Generate a secret key for jose JWT
 # $ openssl rand -hex 32
 SECRET_KEY="d613f7874dea70e21ccbac61247368b61c16247a2a4ed0a8a645aeb608d085e6"
 BACKEND_CORS_ORIGINS=["http://localhost:3000"]
+ADMIN_EMAIL="admin@nowhere.org"
+ADMIN_PASSWORD="admin"
+#
+# optional
+#
+DEMO_EMAIL="demo@nowhere.org"
+DEMO_PASSWORD="demo"
+
 ```
 
 Create a python venv:

@@ -44,6 +44,15 @@ def upgrade():
             is_active=True,
             is_superuser=True
         ))
+    if settings.DEMO_EMAIL:
+        DBUsers.create_user(
+            db=orm.Session(bind=op.get_bind()),
+            user=UserCreate(
+                email=settings.DEMO_EMAIL,
+                password=settings.DEMO_PASSWORD,
+                is_active=True,
+                is_superuser=False
+            ))
 
 
 def downgrade():

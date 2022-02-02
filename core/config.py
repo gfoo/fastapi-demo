@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     PROJECT_NAME: Optional[str] = None
     ADMIN_EMAIL: Optional[str] = None
     ADMIN_PASSWORD: Optional[str] = None
+    DEMO_EMAIL: Optional[str] = None
+    DEMO_PASSWORD: Optional[str] = None
     SQLALCHEMY_DATABASE_URI: Optional[str] = None
     SECRET_KEY: Optional[str] = None
     # 60 minutes * 24 hours * 30 days = 30 days
