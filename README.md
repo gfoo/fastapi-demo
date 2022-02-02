@@ -10,6 +10,7 @@ SQLALCHEMY_DATABASE_URI="postgresql://postgres:postgres@localhost:5432/fastapi_d
 # Generate a secret key for jose JWT
 # $ openssl rand -hex 32
 SECRET_KEY="d613f7874dea70e21ccbac61247368b61c16247a2a4ed0a8a645aeb608d085e6"
+BACKEND_CORS_ORIGINS=["http://localhost:3000"]
 ```
 
 Create a python venv:
