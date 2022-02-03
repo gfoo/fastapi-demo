@@ -28,7 +28,7 @@ def get_token(
             status_code=status.HTTP_404_NOT_FOUND, detail="Incorrect password")
     if not user.is_active:
         raise HTTPException(
-            status_code=status.HTTP_400_NOT_FOUND, detail="Inactive user")
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Inactive user")
 
     access_token = create_access_token(user_id=user.id)
     return {
