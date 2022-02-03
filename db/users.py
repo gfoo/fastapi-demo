@@ -25,3 +25,11 @@ def create_user(db: Session, user: UserCreate):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+
+def update_user_password(db: Session, user_id: int, new_password: str):
+    db.query(DBUser).filter(
+        DBUser.id == user_id).update({
+            DBUser.password: get_password_hash(new_password)
+        })
+    db.commit()

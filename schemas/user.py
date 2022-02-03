@@ -18,3 +18,8 @@ class UserView(User):
 
 class UserCreate(User):
     password: str
+
+
+class UserUpdatePassword(BaseModel):
+    old_password: str
+    new_password: str
