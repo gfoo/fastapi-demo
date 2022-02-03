@@ -27,6 +27,12 @@ def create_user(db: Session, user: UserCreate):
     return db_user
 
 
+def delete_user(db: Session, user_id: int):
+    db.query(DBUser).filter(
+        DBUser.id == user_id).delete()
+    db.commit()
+
+
 def update_user_password(db: Session, user_id: int, new_password: str):
     db.query(DBUser).filter(
         DBUser.id == user_id).update({

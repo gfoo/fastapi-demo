@@ -4,6 +4,7 @@ from typing import List
 from core.security import verify_password
 from db import users as DBUsers
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.responses import JSONResponse
 from models.user import DBUser
 from schemas.user import (UserCreate, UserUpdateActivate, UserUpdatePassword,
                           UserUpdateSuperuser, UserView)
@@ -62,7 +63,7 @@ def update_user_password_reset(
         user_id: int, user_passwords: UserUpdatePassword, db: Session = Depends(get_db),
         current_user: DBUser = Depends(get_current_active_superuser)):
     """
-    Update any user password (require privileges).
+    Update any user password (require superuser privileges).
     """
     db_user = DBUsers.get_user(db, user_id=user_id)
     if db_user is None:
@@ -78,7 +79,7 @@ def update_user_activate(
         user_id: int, user_activate: UserUpdateActivate, db: Session = Depends(get_db),
         current_user: DBUser = Depends(get_current_active_superuser)):
     """
-    Update any user activation (require privileges).
+    Update any user activation (require superuser privileges).
     """
     db_user = DBUsers.get_user(db, user_id=user_id)
     if db_user is None:
@@ -94,7 +95,7 @@ def update_user_activate(
         user_id: int, user_superuser: UserUpdateSuperuser, db: Session = Depends(get_db),
         current_user: DBUser = Depends(get_current_active_superuser)):
     """
-    Update any user privileges (require privileges).
+    Update any user privileges (require superuser privileges).
     """
     db_user = DBUsers.get_user(db, user_id=user_id)
     if db_user is None:
@@ -142,3 +143,17 @@ def create_user(user: UserCreate, db: Session = Depends(get_db),
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
     return DBUsers.create_user(db=db, user=user)
+
+
+@router.delete("/{user_id}", response_class=JSONResponse)
+def create_user(user_id: int, db: Session = Depends(get_db),
+                current_user: DBUser = Depends(get_current_active_superuser)):
+    """
+    Delete a user (require superuser privileges).
+    """
+    db_user = DBUsers.get_user(db, user_id=user_id)
+    if db_user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    DBUsers.delete_user(db=db, user_id=user_id)
+    return JSONResponse(content={"status": "ok"})
