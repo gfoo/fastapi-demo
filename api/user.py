@@ -5,7 +5,8 @@ from core.security import verify_password
 from db import users as DBUsers
 from fastapi import APIRouter, Depends, HTTPException, status
 from models.user import DBUser
-from schemas.user import UserCreate, UserUpdatePassword, UserView
+from schemas.user import (UserCreate, UserUpdateActivate, UserUpdatePassword,
+                          UserUpdateSuperuser, UserView)
 from sqlalchemy.orm import Session
 
 from .deps import get_current_active_superuser, get_current_active_user, get_db
@@ -69,6 +70,38 @@ def update_user_password_reset(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     DBUsers.update_user_password(
         db=db, user_id=user_id, new_password=user_passwords.new_password)
+    return db_user
+
+
+@router.post("/{user_id}/activate", response_model=UserView)
+def update_user_activate(
+        user_id: int, user_activate: UserUpdateActivate, db: Session = Depends(get_db),
+        current_user: DBUser = Depends(get_current_active_superuser)):
+    """
+    Update any user activation (require privileges).
+    """
+    db_user = DBUsers.get_user(db, user_id=user_id)
+    if db_user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    DBUsers.update_user_activate(
+        db=db, user_id=user_id, activate=user_activate.activate)
+    return db_user
+
+
+@router.post("/{user_id}/superuser", response_model=UserView)
+def update_user_activate(
+        user_id: int, user_superuser: UserUpdateSuperuser, db: Session = Depends(get_db),
+        current_user: DBUser = Depends(get_current_active_superuser)):
+    """
+    Update any user privileges (require privileges).
+    """
+    db_user = DBUsers.get_user(db, user_id=user_id)
+    if db_user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    DBUsers.update_user_superuser(
+        db=db, user_id=user_id, superuser=user_superuser.superuser)
     return db_user
 
 

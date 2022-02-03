@@ -23,3 +23,11 @@ class UserCreate(User):
 class UserUpdatePassword(BaseModel):
     old_password: str
     new_password: str
+
+
+class UserUpdateActivate(BaseModel):
+    activate: bool
+
+
+class UserUpdateSuperuser(BaseModel):
+    superuser: bool

@@ -33,3 +33,19 @@ def update_user_password(db: Session, user_id: int, new_password: str):
             DBUser.password: get_password_hash(new_password)
         })
     db.commit()
+
+
+def update_user_activate(db: Session, user_id: int, activate: bool):
+    db.query(DBUser).filter(
+        DBUser.id == user_id).update({
+            DBUser.is_active: activate
+        })
+    db.commit()
+
+
+def update_user_superuser(db: Session, user_id: int, superuser: bool):
+    db.query(DBUser).filter(
+        DBUser.id == user_id).update({
+            DBUser.is_superuser: superuser
+        })
+    db.commit()
