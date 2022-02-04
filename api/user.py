@@ -124,6 +124,10 @@ def update_user_password(
             detail="Can only update its own password"
         )
 
+    if user_passwords.old_password == user_passwords.new_password:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="New password cannot be the same as the old one")
+
     if not verify_password(user_passwords.old_password, db_user.password):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="Incorrect old password")
@@ -156,4 +160,4 @@ def create_user(user_id: int, db: Session = Depends(get_db),
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     DBUsers.delete_user(db=db, user_id=user_id)
-    return JSONResponse(content={"status": "ok"})
+    return JSONResponse(content={"status": "ok", "user_id": user_id})
