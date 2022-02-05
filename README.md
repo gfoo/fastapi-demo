@@ -1,4 +1,15 @@
-## How to start to dev
+## Heroku demo
+
+https://fastapi-demo-gfoo.herokuapp.com/docs
+
+Users :
+
+- `admin@nowhere.org / admin`
+- `demo@nowhere.org / demo`
+
+(possibly wait a while if service is stopped...)
+
+## Local dev
 
 (Frontend available [here](https://github.com/gfoo/react-demo))
 
