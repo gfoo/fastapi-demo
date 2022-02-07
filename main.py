@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api import authentication, user
+from api import authentication, project, user
 from core.config import settings
 
 app = FastAPI(title=settings.PROJECT_NAME)
@@ -20,4 +20,5 @@ if settings.BACKEND_CORS_ORIGINS:
 
 
 app.include_router(user.router)
+app.include_router(project.router)
 app.include_router(authentication.router)

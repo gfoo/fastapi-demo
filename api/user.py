@@ -150,7 +150,7 @@ def create_user(user: UserCreate, db: Session = Depends(get_db),
 
 
 @router.delete("/{user_id}", response_class=JSONResponse)
-def create_user(user_id: int, db: Session = Depends(get_db),
+def delete_user(user_id: int, db: Session = Depends(get_db),
                 current_user: DBUser = Depends(get_current_active_superuser)):
     """
     Delete a user (require superuser privileges).

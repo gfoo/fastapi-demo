@@ -19,8 +19,11 @@ def get_user_by_email(db: Session, email: str):
 
 def create_user(db: Session, user: UserCreate):
     db_user = DBUser(
-        email=user.email, password=get_password_hash(user.password),
-        is_active=user.is_active, is_superuser=user.is_superuser)
+        email=user.email,
+        fullname=user.fullname,
+        password=get_password_hash(user.password),
+        is_active=user.is_active,
+        is_superuser=user.is_superuser)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)

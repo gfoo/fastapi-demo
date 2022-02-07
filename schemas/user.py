@@ -3,16 +3,24 @@
 from pydantic import BaseModel
 
 
-class User(BaseModel):
-    email: str
-    is_active: bool
-    is_superuser: bool
+class UserBase(BaseModel):
+    fullname: str
 
     class Config:
         orm_mode = True
 
 
+class User(UserBase):
+    email: str
+    is_active: bool
+    is_superuser: bool
+
+
 class UserView(User):
+    id: int
+
+
+class UserProject(UserBase):
     id: int
 
 
